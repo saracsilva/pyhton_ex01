@@ -8,10 +8,12 @@ def startDownload():
         ytLink = link.get()
         ytObject = YouTube(ytLink)
         video = ytObject.streams.get_highest_resolution()
+        title.configure(text=ytObject.title)
+        finishLabel.configure("")
         video.download()
+        finishLabel.configure(text="Dowloaded!")
     except:
-        print("Youtube link is invalid.")
-    print("Download complete")
+        finishLabel.configure(text="Youtube link is invalid.", text_color="red")
 
 
 # System settings
@@ -35,6 +37,20 @@ title.pack(padx=10, pady=10)
 url_var = tkinter.StringVar()
 link = customtkinter.CTkEntry(app, width=350, height=40, textvariable=url_var)
 link.pack()
+
+# Progress percentage
+
+pPercentage = customtkinter.CTkLabel(app, text="0%")
+pPercentage.pack()
+
+progressBar = customtkinter.CTkProgressBar(app, width=400)
+progressBar.set(0.5)
+progressBar.pack(padx=10, pady=10)
+
+# Finished download
+
+finishLabel = customtkinter.CTkLabel(app, text="")
+finishLabel.pack()
 
 
 # Download Button
